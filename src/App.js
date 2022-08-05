@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import Game from './pages/Game';
 import Login from './pages/Login';
 
 export default function App() {
   return (
-    <Route exact path="/" component={ Login } />
+    <Switch>
+      <Route exact path="/" render={ (props) => <Login { ...props } /> } />
+      <Route path="/games" component={ Game } />
+    </Switch>
   );
 }
