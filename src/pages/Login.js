@@ -44,6 +44,8 @@ class Login extends Component {
 
   render() {
     const { name, email, activeButton } = this.state;
+    const { history } = this.props;
+
     return (
       <section>
         <label htmlFor="name">
@@ -79,6 +81,14 @@ class Login extends Component {
           onClick={ () => this.getApi({ name, email }) }
         >
           Play
+
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => (history.push('/settings')) }
+        >
+          Configurações
 
         </button>
       </section>
