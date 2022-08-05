@@ -1,6 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import fetchApi from '../services';
+import { login } from '../redux/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
@@ -26,6 +30,17 @@ export default class Login extends Component {
       this.setState({ activeButton: true });
     }
   };
+
+  getApi = async (objectInfo) => {
+    const { name } = this.state;
+    const { loginDispatch, history } = this.props;
+    const result = await fetchApi();
+    const string = JSON.stringify([{ name, score: 10, picture: '' }]);
+    localStorage.setItem('ranking', string);
+    localStorage.setItem('token', result.token);
+    loginDispatch(objectInfo);
+    history.push('/games');
+  }
 
   render() {
     const { name, email, activeButton } = this.state;
@@ -61,6 +76,7 @@ export default class Login extends Component {
           type="button"
           disabled={ activeButton }
           data-testid="btn-play"
+          onClick={ () => this.getApi({ name, email }) }
         >
           Play
 
@@ -69,3 +85,13 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  loginDispatch: PropTypes.func,
+}.isRequired;
+
+const mapDispatchToProps = (dispatch) => ({
+  loginDispatch: (informacoes) => dispatch(login(informacoes)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
