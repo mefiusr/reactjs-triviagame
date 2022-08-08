@@ -16,22 +16,19 @@ class Game extends Component {
       buttonIncorrect: '',
       timer: 30,
       desactiveButton: false,
+      nextQuestion: 0,
     };
   }
 
   componentDidMount() {
     this.getQuestions();
-    this.timer();
+    this.tempo();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.timer === 0) {
       this.addStyle();
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
   }
 
   addStyle = () => {
@@ -41,9 +38,10 @@ class Game extends Component {
       buttonIncorrect: 'buttonIncorrect',
       desactiveButton: true,
     });
+    clearInterval(this.timerID);
   };
 
-  timer = () => {
+  tempo = () => {
     const SECONDS = 1000;
     this.timerID = setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
@@ -89,9 +87,19 @@ class Game extends Component {
     saveTrivia(resultMap);
   };
 
+  next = () => {
+    this.setState((prevState) => ({
+      nextQuestion: prevState.nextQuestion + 1,
+      timer: 30,
+      desactiveButton: false,
+      buttonCorrect: '',
+      buttonIncorrect: '',
+    }), this.tempo());
+  }
+
   render() {
     const { checkTrivia,
-      buttonCorrect, buttonIncorrect, timer, desactiveButton } = this.state;
+      buttonCorrect, buttonIncorrect, timer, desactiveButton, nextQuestion } = this.state;
     const { questoes } = this.props;
     return (
       <div>
@@ -173,8 +181,18 @@ class Game extends Component {
                     ))}
                 </div>
               </div>
-            ))[0]
+            ))[nextQuestion]
           )}
+          { desactiveButton && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.next }
+            >
+              Next
+
+            </button>)}
+
         </main>
       </div>
     );
