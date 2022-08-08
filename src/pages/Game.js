@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import { fetchTrivia } from '../services';
 import { questions } from '../redux/actions';
-import { Redirect } from 'react-router-dom';
 
 class Game extends Component {
   constructor() {
@@ -19,7 +20,8 @@ class Game extends Component {
 
   getQuestions = async () => {
     const { saveTrivia } = this.props;
-    const result = fetchTrivia(localStorage.getItem('token'));
+    const result = await fetchTrivia(localStorage.getItem('token'));
+    const number05 = 0.5;
     if (result.response_code === 0) {
       this.setState({
         checkTrivia: false,
@@ -29,7 +31,14 @@ class Game extends Component {
         checkTrivia: true,
       });
     }
-    saveTrivia(result.results);
+    const resultMap = result.results.map((elem) => ({
+      ...elem,
+      incorrect_answers: [...elem.incorrect_answers, elem.correct_answer]
+        .sort(() => Math.random() - number05),
+    }));
+    console.log(result.results);
+    console.log(resultMap);
+    saveTrivia(resultMap);
   };
 
   render() {
@@ -37,30 +46,73 @@ class Game extends Component {
     const { questoes } = this.props;
     return (
       <div>
-         <Header />
+        <Header />
         <main>
-         {checkTrivia ? <Redirect to='/' /> : (
-          questoes.map((elem, index) => {
-            <div>
-            <div>
-              <p data-testid='question-category'>{elem.category}</p>
-              <p data-testid='question-text'>{elem.question}</p>
-            </div>
-            <div>
-              <button data-testid='correct-answer' >{elem.correct_answer}</button>
-              {elem.type === 'boolean' ? <button type='button' data-testid={`wrong-answer-${index}`}></button> : 
-              elem.incorrect_answers.map((incorrect) => {
-                <button type='button' data-testid={`wrong-answer-${index}`}>{incorrect}</button>
-              })}
-            </div>
-            </div>
-          }),
-         )};
+          {checkTrivia ? <Redirect to="/" /> : (
+            questoes.map((elem, index) => (
+              <div key={ `Perguntas ${index} ` }>
+                <div>
+                  <p data-testid="question-category">{elem.category}</p>
+                  <p data-testid="question-text">{elem.question}</p>
+                </div>
+                <div>
+                  {elem.type === 'boolean' ? elem.incorrect_answers.map((values) => (
+                    <div
+                      key={ `respostas booleanas ${values} ${index}` }
+                      data-testid="answer-options"
+                    >
+                      {elem.correct_answer === values ? (
+                        <button
+                          type="button"
+                          data-testid="correct-answer"
+                        >
+                          {values}
+                        </button>)
+                        : (
+                          <button
+                            type="button"
+                            data-testid={ `wrong-answer-${index}` }
+                          >
+                            {values}
+                          </button>
+                        )}
+                    </div>
+                  )) : elem.incorrect_answers.map((newValues) => (
+                    <div
+                      key={ `respostas múltiplas ${newValues} ${index}` }
+                      data-testid="answer-options"
+                    >
+                      {elem.correct_answer === newValues ? (
+                        <button
+                          type="button"
+                          data-testid="correct-answer"
+                        >
+                          {newValues}
+                        </button>)
+                        : (
+                          <button
+                            type="button"
+                            data-testid={ `wrong-answer-${index}` }
+                          >
+                            {newValues}
+
+                          </button>)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))[0]
+          )}
         </main>
       </div>
     );
   }
 }
+
+Game.propTypes = {
+  questoes: PropTypes.array,
+  saveTrivia: PropTypes.func,
+}.isRequired;
 
 const mapStateToProps = (state) => ({
   questoes: state.player.questions,
@@ -70,4 +122,4 @@ const mapDispatchToProps = (dispatch) => ({
   saveTrivia: (trivia) => dispatch(questions(trivia)),
 });
 
-export default connect(null, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
