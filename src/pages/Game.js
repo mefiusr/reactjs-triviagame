@@ -5,17 +5,27 @@ import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import { fetchTrivia } from '../services';
 import { questions } from '../redux/actions';
+import '../styles/style.css';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       checkTrivia: false,
+      buttonCorrect: '',
+      buttonIncorrect: '',
     };
   }
 
   componentDidMount() {
     this.getQuestions();
+  }
+
+  addStyle = () => {
+    this.setState({
+      buttonCorrect: 'buttonCorrect',
+      buttonIncorrect: 'buttonIncorrect',
+    });
   }
 
   getQuestions = async () => {
@@ -33,22 +43,23 @@ class Game extends Component {
     }
     const resultMap = result.results.map((elem) => ({
       ...elem,
-      incorrect_answers: [...elem.incorrect_answers, elem.correct_answer]
-        .sort(() => Math.random() - number05),
+      incorrect_answers: [...elem.incorrect_answers, elem.correct_answer].sort(
+        () => Math.random() - number05,
+      ),
     }));
-    console.log(result.results);
-    console.log(resultMap);
     saveTrivia(resultMap);
   };
 
   render() {
-    const { checkTrivia } = this.state;
+    const { checkTrivia, buttonCorrect, buttonIncorrect } = this.state;
     const { questoes } = this.props;
     return (
       <div>
         <Header />
         <main>
-          {checkTrivia ? <Redirect to="/" /> : (
+          {checkTrivia ? (
+            <Redirect to="/" />
+          ) : (
             questoes.map((elem, index) => (
               <div key={ `Perguntas ${index} ` }>
                 <div>
@@ -56,49 +67,59 @@ class Game extends Component {
                   <p data-testid="question-text">{elem.question}</p>
                 </div>
                 <div>
-                  {elem.type === 'boolean' ? elem.incorrect_answers.map((values) => (
-                    <div
-                      key={ `respostas booleanas ${values} ${index}` }
-                      data-testid="answer-options"
-                    >
-                      {elem.correct_answer === values ? (
-                        <button
-                          type="button"
-                          data-testid="correct-answer"
-                        >
-                          {values}
-                        </button>)
-                        : (
+                  {elem.type === 'boolean'
+                    ? elem.incorrect_answers.map((values) => (
+                      <div
+                        key={ `respostas booleanas ${values} ${index}` }
+                        data-testid="answer-options"
+                      >
+                        {elem.correct_answer === values ? (
                           <button
                             type="button"
+                            className={ buttonCorrect }
+                            data-testid="correct-answer"
+                            onClick={ this.addStyle }
+                          >
+                            {values}
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className={ buttonIncorrect }
                             data-testid={ `wrong-answer-${index}` }
+                            onClick={ this.addStyle }
                           >
                             {values}
                           </button>
                         )}
-                    </div>
-                  )) : elem.incorrect_answers.map((newValues) => (
-                    <div
-                      key={ `respostas múltiplas ${newValues} ${index}` }
-                      data-testid="answer-options"
-                    >
-                      {elem.correct_answer === newValues ? (
-                        <button
-                          type="button"
-                          data-testid="correct-answer"
-                        >
-                          {newValues}
-                        </button>)
-                        : (
+                      </div>
+                    ))
+                    : elem.incorrect_answers.map((newValues) => (
+                      <div
+                        key={ `respostas múltiplas ${newValues} ${index}` }
+                        data-testid="answer-options"
+                      >
+                        {elem.correct_answer === newValues ? (
                           <button
                             type="button"
-                            data-testid={ `wrong-answer-${index}` }
+                            className={ buttonCorrect }
+                            data-testid="correct-answer"
+                            onClick={ this.addStyle }
                           >
                             {newValues}
-
-                          </button>)}
-                    </div>
-                  ))}
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className={ buttonIncorrect }
+                            data-testid={ `wrong-answer-${index}` }
+                            onClick={ this.addStyle }
+                          >
+                            {newValues}
+                          </button>
+                        )}
+                      </div>
+                    ))}
                 </div>
               </div>
             ))[0]

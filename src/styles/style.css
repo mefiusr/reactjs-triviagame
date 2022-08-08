@@ -5,3 +5,7 @@
 .buttonIncorrect {
   border: 3px solid red;
 }
+
+.buttons {
+  border: 1px solid white;
+}
