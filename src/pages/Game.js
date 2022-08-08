@@ -14,19 +14,41 @@ class Game extends Component {
       checkTrivia: false,
       buttonCorrect: '',
       buttonIncorrect: '',
+      timer: 30,
+      desactiveButton: false,
     };
   }
 
   componentDidMount() {
     this.getQuestions();
+    this.timer();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.timer === 0) {
+      this.addStyle();
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 
   addStyle = () => {
     this.setState({
+      timer: 0,
       buttonCorrect: 'buttonCorrect',
       buttonIncorrect: 'buttonIncorrect',
+      desactiveButton: true,
     });
-  }
+  };
+
+  timer = () => {
+    const SECONDS = 1000;
+    this.timerID = setInterval(() => {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }, SECONDS);
+  };
 
   getQuestions = async () => {
     const { saveTrivia } = this.props;
@@ -51,12 +73,14 @@ class Game extends Component {
   };
 
   render() {
-    const { checkTrivia, buttonCorrect, buttonIncorrect } = this.state;
+    const { checkTrivia,
+      buttonCorrect, buttonIncorrect, timer, desactiveButton } = this.state;
     const { questoes } = this.props;
     return (
       <div>
         <Header />
         <main>
+          <p>{timer}</p>
           {checkTrivia ? (
             <Redirect to="/" />
           ) : (
@@ -76,6 +100,7 @@ class Game extends Component {
                         {elem.correct_answer === values ? (
                           <button
                             type="button"
+                            disabled={ desactiveButton }
                             className={ buttonCorrect }
                             data-testid="correct-answer"
                             onClick={ this.addStyle }
@@ -85,6 +110,7 @@ class Game extends Component {
                         ) : (
                           <button
                             type="button"
+                            disabled={ desactiveButton }
                             className={ buttonIncorrect }
                             data-testid={ `wrong-answer-${index}` }
                             onClick={ this.addStyle }
@@ -102,6 +128,7 @@ class Game extends Component {
                         {elem.correct_answer === newValues ? (
                           <button
                             type="button"
+                            disabled={ desactiveButton }
                             className={ buttonCorrect }
                             data-testid="correct-answer"
                             onClick={ this.addStyle }
@@ -111,6 +138,7 @@ class Game extends Component {
                         ) : (
                           <button
                             type="button"
+                            disabled={ desactiveButton }
                             className={ buttonIncorrect }
                             data-testid={ `wrong-answer-${index}` }
                             onClick={ this.addStyle }
