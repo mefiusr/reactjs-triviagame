@@ -1,0 +1,11 @@
+.buttonCorrect {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.buttonIncorrect {
+  border: 3px solid red;
+}
+
+.buttons {
+  border: 1px solid white;
+}
