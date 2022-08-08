@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import { fetchTrivia } from '../services';
-import { questions } from '../redux/actions';
+import { questions, score } from '../redux/actions';
 import '../styles/style.css';
 
 class Game extends Component {
@@ -49,6 +49,23 @@ class Game extends Component {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
     }, SECONDS);
   };
+
+  getScore = (dificuldade) => {
+    const { scoreDispatch } = this.props;
+    const { timer } = this.state;
+    let pontos = 0;
+    const numberThree = 3;
+    const numberTen = 10;
+    if (dificuldade === 'easy') {
+      pontos = 1;
+    } else if (dificuldade === 'medium') {
+      pontos = 2;
+    } else {
+      pontos = numberThree;
+    }
+    const pontuacao = numberTen + (timer * pontos);
+    scoreDispatch(pontuacao);
+  }
 
   getQuestions = async () => {
     const { saveTrivia } = this.props;
@@ -103,7 +120,10 @@ class Game extends Component {
                             disabled={ desactiveButton }
                             className={ buttonCorrect }
                             data-testid="correct-answer"
-                            onClick={ this.addStyle }
+                            onClick={ () => {
+                              this.addStyle();
+                              this.getScore(elem.difficulty);
+                            } }
                           >
                             {values}
                           </button>
@@ -131,7 +151,10 @@ class Game extends Component {
                             disabled={ desactiveButton }
                             className={ buttonCorrect }
                             data-testid="correct-answer"
-                            onClick={ this.addStyle }
+                            onClick={ () => {
+                              this.addStyle();
+                              this.getScore(elem.difficulty);
+                            } }
                           >
                             {newValues}
                           </button>
@@ -165,10 +188,12 @@ Game.propTypes = {
 
 const mapStateToProps = (state) => ({
   questoes: state.player.questions,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
   saveTrivia: (trivia) => dispatch(questions(trivia)),
+  scoreDispatch: (pontuacao) => dispatch(score(pontuacao)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
