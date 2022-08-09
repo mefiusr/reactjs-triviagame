@@ -14,7 +14,7 @@ export default function App() {
       <Route path="/games" render={ (props) => <Game { ...props } /> } />
       <Route path="/settings" component={ Settings } />
       <Route path="/feedback" render={ (props) => <Feedback { ...props } /> } />
-      <Route path="/ranking" component={ Ranking } />
+      <Route path="/ranking" render={ (props) => <Ranking { ...props } /> } />
     </Switch>
   );
 }
