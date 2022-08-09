@@ -88,13 +88,20 @@ class Game extends Component {
   };
 
   next = () => {
-    this.setState((prevState) => ({
-      nextQuestion: prevState.nextQuestion + 1,
-      timer: 30,
-      desactiveButton: false,
-      buttonCorrect: '',
-      buttonIncorrect: '',
-    }), this.tempo());
+    const { nextQuestion } = this.state;
+    const { history } = this.props;
+    const numberFive = 5;
+    if (nextQuestion > numberFive) {
+      history.push('/feedback');
+    } else {
+      this.setState((prevState) => ({
+        nextQuestion: prevState.nextQuestion + 1,
+        timer: 30,
+        desactiveButton: false,
+        buttonCorrect: '',
+        buttonIncorrect: '',
+      }), this.tempo());
+    }
   }
 
   render() {
