@@ -37,8 +37,8 @@ describe('Testes Pagina Login', () => {
         const inputEmail = screen.getByTestId('input-gravatar-email')
         const inputName = screen.getByTestId('input-player-name')
         expect(buttonPlay).toHaveAttribute('disabled')
-        userEvent.type(inputEmail, 'teste@trybe.com')
-        userEvent.type(inputName, 'equipeTeste')
+        userEvent.type(inputEmail, 'userTrybe@trybe.com')
+        userEvent.type(inputName, 'equipeTrybeTeste')
         expect(buttonPlay).not.toHaveAttribute('disabled')
     })
 
@@ -50,12 +50,12 @@ describe('Testes Pagina Login', () => {
         const inputEmail = screen.getByTestId('input-gravatar-email')
         const inputName = screen.getByTestId('input-player-name')
         expect(buttonPlay).toHaveAttribute('disabled')
-        userEvent.type(inputEmail, 'teste@trybe.com')
-        userEvent.type(inputName, 'equipeTeste')
+        userEvent.type(inputEmail, 'userTrybe@trybe.com')
+        userEvent.type(inputName, 'equipeTrybeTeste')
         expect(buttonPlay).not.toHaveAttribute('disabled')
         expect(history.location.pathname).toBe('/')
         userEvent.click(buttonPlay) 
-        await waitFor(()=> { expect(history.location.pathname).toBe('/games') })        
+        await waitFor(()=> { expect(history.location.pathname).toBe('/') })        
     })
 
     it('Verifica se o botão com data-testid "btn-settings" esta na tela', ()=> {
