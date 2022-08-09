@@ -31,12 +31,22 @@ class Login extends Component {
     }
   };
 
+  /* localStorageCrazy = () => {
+    const { ranking, name } = this.state;
+    if (ranking.length === 0) {
+      this.setState({
+        ranking: [{ name, score: 10, picture: '' }],
+      });
+    } else {
+      this.setState((prevState) => ({
+        ranking: [...prevState.ranking, { name, score: 0, picture: '' }],
+      }));
+    }
+  } */
+
   getApi = async (objectInfo) => {
-    const { name } = this.state;
     const { loginDispatch, history } = this.props;
     const result = await fetchApi();
-    const string = JSON.stringify([{ name, score: 10, picture: '' }]);
-    localStorage.setItem('ranking', string);
     localStorage.setItem('token', result.token);
     loginDispatch(objectInfo);
     history.push('/games');

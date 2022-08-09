@@ -1,4 +1,4 @@
-import { LOGIN, QUESTIONS, SCORE } from '../actions';
+import { LOGIN, QUESTIONS, SCORE, CLEAR } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   score: 0,
   gravatarEmail: '',
   questions: [],
+  firstLogin: true,
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -26,6 +27,13 @@ const player = (state = INITIAL_STATE, action) => {
       ...state,
       score: Number(state.score) + Number(action.payload),
       assertions: Number(state.assertions) + 1,
+    };
+  case CLEAR:
+    return {
+      ...state,
+      assertions: 0,
+      score: 0,
+      firstLogin: false,
     };
   default:
     return state;
