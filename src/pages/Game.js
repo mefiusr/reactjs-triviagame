@@ -27,7 +27,6 @@ class Game extends Component {
 
   addStyle = () => {
     this.setState({
-      timer: 0,
       buttonCorrect: 'buttonCorrect',
       buttonIncorrect: 'buttonIncorrect',
       desactiveButton: true,
