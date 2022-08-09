@@ -2,8 +2,8 @@ import { LOGIN, QUESTIONS, SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
-  assertions: '',
-  score: '',
+  assertions: 0,
+  score: 0,
   gravatarEmail: '',
   questions: [],
 };
@@ -24,7 +24,8 @@ const player = (state = INITIAL_STATE, action) => {
   case SCORE:
     return {
       ...state,
-      score: state.score + action.payload,
+      score: Number(state.score) + Number(action.payload),
+      assertions: Number(state.assertions) + 1,
     };
   default:
     return state;

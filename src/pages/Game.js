@@ -25,27 +25,26 @@ class Game extends Component {
     this.tempo();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.timer === 0) {
-      this.addStyle();
-    }
-  }
-
   addStyle = () => {
     this.setState({
-      timer: 0,
       buttonCorrect: 'buttonCorrect',
       buttonIncorrect: 'buttonIncorrect',
       desactiveButton: true,
     });
     clearInterval(this.timerID);
+    clearTimeout(this.clearId);
   };
 
   tempo = () => {
     const SECONDS = 1000;
+    const trintaSeconds = 30000;
     this.timerID = setInterval(() => {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
     }, SECONDS);
+    this.clearId = setTimeout(() => {
+      this.addStyle();
+      clearInterval(this.timerID);
+    }, trintaSeconds);
   };
 
   getScore = (dificuldade) => {
@@ -90,17 +89,17 @@ class Game extends Component {
   next = () => {
     const { nextQuestion } = this.state;
     const { history } = this.props;
-    const numberFive = 5;
-    if (nextQuestion > numberFive) {
-      history.push('/feedback');
-    } else {
+    const number04 = 4;
+    if (nextQuestion < number04) {
       this.setState((prevState) => ({
-        nextQuestion: prevState.nextQuestion + 1,
         timer: 30,
+        nextQuestion: prevState.nextQuestion + 1,
         desactiveButton: false,
         buttonCorrect: '',
         buttonIncorrect: '',
       }), this.tempo());
+    } else {
+      history.push('/feedback');
     }
   }
 
