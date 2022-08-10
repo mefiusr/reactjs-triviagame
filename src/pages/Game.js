@@ -108,7 +108,7 @@ class Game extends Component {
       buttonCorrect, buttonIncorrect, timer, desactiveButton, nextQuestion } = this.state;
     const { questoes } = this.props;
     return (
-      <div>
+      <>
         <Header />
         <main>
           <p>{timer}</p>
@@ -200,7 +200,7 @@ class Game extends Component {
             </button>)}
 
         </main>
-      </div>
+      </>
     );
   }
 }

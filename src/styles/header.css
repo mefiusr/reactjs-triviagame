@@ -1,0 +1,9 @@
+.header {
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-around;
+}
+
+.p-header {
+  font-size: 20px;
+}
