@@ -111,7 +111,7 @@ class Game extends Component {
       <>
         <Header />
         <main>
-          <p>{timer}</p>
+          <p data-testid="p-timer">{timer}</p>
           {checkTrivia ? (
             <Redirect to="/" />
           ) : (
