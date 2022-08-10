@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Bellota+Text:wght@300&family=Crimson+Text&family=Share+Tech+Mono&family=Source+Code+Pro:wght@300&display=swap');
+
+body {
+  background-color: rgb(50, 77, 145);
+  color: white;
+}
+
+h1 {
+  font-size: 55px;
+}
+
+.section-login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: Bellota Text, cursive;
+  font-weight: 700;
+  height: 50vh;
+  justify-content: space-evenly;
+}
+
+.div-buttons-login {
+  display: flex;
+  justify-content: space-around;
+  width: 10vw;
+}
+
+.btn-login-page {
+  height: 25px;
+  width: auto;
+}
+
+.btn-login-page:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.div-inputs-login {
+  height: 5vh;
+}
+
+.inputs-login-page {
+  margin-left: 5px;
+  padding: 5px;
+}
