@@ -33,7 +33,7 @@ class Ranking extends Component {
           {rankingKing.length !== 0 && rankingKing.map((elem, index) => (
             <div key={ `${elem.name}: player-${index}` }>
               <h3 data-testid={ `player-name-${index}` }>{elem.name}</h3>
-              <p data-testId={ `player-score-${index}` }>{elem.score}</p>
+              <p data-testid={ `player-score-${index}` }>{elem.score}</p>
             </div>
           ))}
         </section>

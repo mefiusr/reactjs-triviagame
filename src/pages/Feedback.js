@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { MD5 } from 'crypto-js';
 import Header from '../components/Header';
 import { clear } from '../redux/actions';
 
 class Feedback extends Component {
-  /*  constructor() {
-    super();
-    this.state = {
-      ranking: true,
-    };
-  } */
-
   componentDidMount() {
     const { firstLogin } = this.props;
     if (firstLogin) {
@@ -25,13 +19,13 @@ class Feedback extends Component {
     const players = JSON.parse(localStorage.getItem('ranking'));
     if (players.result.lenght !== 0) {
       const level = JSON.stringify({
-        result: [...players.result, { name, score, picture: `https://opentdb.com/api.php?amount=5&token=${avatar}` }],
+        result: [...players.result, { name, score, picture: `https://www.gravatar.com/avatar/${MD5(avatar).toString()}` }],
       });
       localStorage.setItem('ranking', level);
       clearRedux();
     } else {
       const level = JSON.stringify({
-        result: [{ name, score, picture: `https://opentdb.com/api.php?amount=5&token=${avatar}` }],
+        result: [{ name, score, picture: `https://www.gravatar.com/avatar/${MD5(avatar).toString()}` }],
       });
       localStorage.setItem('ranking', level);
       clearRedux();
