@@ -1,9 +1,10 @@
 import React from "react";
 import renderWithRouterAndRedux from "./renderWithRouterAndRedux";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from '../../App';
 import Game from "../../pages/Game";
+
 
 describe('Testes no componente Game', () => {
   it('Testa se as perguntas são de multipla escolha', () => {
@@ -26,7 +27,6 @@ describe('Testes no componente Game', () => {
         ],
       }
     }
-
     renderWithRouterAndRedux(<Game />, initialState)
 
     const correctButton = screen.getByTestId('correct-answer');
@@ -37,10 +37,6 @@ describe('Testes no componente Game', () => {
     userEvent.click(correctButton);
     const nextButton = screen.getByTestId('btn-next');
     expect(nextButton).toBeInTheDocument();
-
-    setTimeout(() => {
-      expect(clearInterval).toHaveBeenCalled();
-    }, 30000)
   })
 
   it('Testa se o fetch é chamado', () => {
@@ -73,31 +69,20 @@ describe('Testes no componente Game', () => {
 
   })
 
-  it('Testa se as perguntas são verdadeiro ou falso', () => {
-    const initialState = {
-      player: {
-        questions: [
-          {
-            "category":"Entertainment: Video Games",
-            "type":"boolean",
-            "difficulty":"hard",
-            "question":"TF2: Sentry rocket damage falloff is calculated based on the distance between the sentry and the enemy, not the engineer and the enemy",
-            "correct_answer":"False",
-            "incorrect_answers":[
-                "True",
-                "False",
-            ]
-          }
-        ],
+  it('Testa se acontece um redirect quando o token expira', () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+    json: jest.fn().mockResolvedValue(
+      {
+        "response_code":3,
+        "results":[],
       }
-    }
+    ),
+    });
 
-    renderWithRouterAndRedux(<Game />, initialState)
-
-    const correctButton = screen.getByTestId('correct-answer');
-    const incorrectButton = screen.getAllByTestId('wrong-answer-0');
-    expect(correctButton).toBeInTheDocument();
-    expect(incorrectButton).toHaveLength(1);
+   const {history} = renderWithRouterAndRedux(<Game />)
+    const {pathname} = history.location;
+    expect(pathname).toBe('/')
   })
 
   it('Testa se ao clicar no botão next a próxima pergunta é renderizada', () => {
@@ -298,6 +283,30 @@ it('Testa se apos acabar as questões renderiza o feedback', () => {
   userEvent.click(btnNext5);
 
   expect(history.location.pathname).toBe('/feedback');
+})
+it('Testes referentes aos timers', async() => {
+  jest.setTimeout(6000)
+const initialState = {
+  player: {
+    questions: [
+      {
+        "category":"Entertainment: Video Games",
+        "type":"multiple",
+        "difficulty":"easy",
+        "question":"What is the first weapon you acquire in Half-Life?",
+        "correct_answer":"A crowbar",
+        "incorrect_answers":[
+            "A pistol",
+            "The H.E.V suit",
+            "Your fists",
+            "A crowbar",
+        ]
+      }
+    ],
+  }
+}
+  renderWithRouterAndRedux(<Game />, initialState)
+  await waitFor(() => {expect(screen.getByTestId('p-timer').innerHTML).toBe('25')}, {timeout: 6000});
 
 })
 })

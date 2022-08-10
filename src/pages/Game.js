@@ -35,17 +35,17 @@ class Game extends Component {
     clearTimeout(this.clearId);
   };
 
-  tempo = () => {
-    const SECONDS = 1000;
-    const trintaSeconds = 30000;
-    this.timerID = setInterval(() => {
-      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
-    }, SECONDS);
-    this.clearId = setTimeout(() => {
-      this.addStyle();
-      clearInterval(this.timerID);
-    }, trintaSeconds);
-  };
+ tempo = () => {
+   const SECONDS = 1000;
+   const trintaSeconds = 30000;
+   this.timerID = setInterval(() => {
+     this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+   }, SECONDS);
+   this.clearId = setTimeout(() => {
+     this.addStyle();
+     clearInterval(this.timerID);
+   }, trintaSeconds);
+ };
 
   getScore = (dificuldade) => {
     const { scoreDispatch } = this.props;
