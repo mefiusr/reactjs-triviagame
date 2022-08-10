@@ -5,13 +5,6 @@ import Header from '../components/Header';
 import { clear } from '../redux/actions';
 
 class Feedback extends Component {
-  /*  constructor() {
-    super();
-    this.state = {
-      ranking: true,
-    };
-  } */
-
   componentDidMount() {
     const { firstLogin } = this.props;
     if (firstLogin) {
