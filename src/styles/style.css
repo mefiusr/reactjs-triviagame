@@ -1,7 +1,9 @@
 .buttonCorrect {
   border: 3px solid rgb(6, 240, 15);
+  margin-left: 5px;
 }
 
 .buttonIncorrect {
   border: 3px solid red;
+  margin-left: 5px;
 }

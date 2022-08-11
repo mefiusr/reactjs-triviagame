@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { BiTimer } from 'react-icons/bi';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import { fetchTrivia } from '../services';
 import { questions, score } from '../redux/actions';
 import '../styles/style.css';
+import '../styles/game.css';
 
 class Game extends Component {
   constructor() {
@@ -27,8 +29,8 @@ class Game extends Component {
 
   addStyle = () => {
     this.setState({
-      buttonCorrect: 'buttonCorrect',
-      buttonIncorrect: 'buttonIncorrect',
+      buttonCorrect: 'btn btn-success',
+      buttonIncorrect: 'btn btn-danger',
       desactiveButton: true,
     });
     clearInterval(this.timerID);
@@ -110,18 +112,24 @@ class Game extends Component {
     return (
       <>
         <Header />
-        <main>
-          <p data-testid="p-timer">{timer}</p>
+        <main className="main-game">
           {checkTrivia ? (
             <Redirect to="/" />
           ) : (
             questoes.map((elem, index) => (
-              <div key={ `Perguntas ${index} ` }>
-                <div>
+              <div className="div-perguntas" key={ `Perguntas ${index}` }>
+
+                <div className="div-questions">
                   <p data-testid="question-category">{elem.category}</p>
                   <p data-testid="question-text">{elem.question}</p>
+
                 </div>
-                <div>
+                <p data-testid="p-timer">
+                  {`TEMPO:  ${timer}`}
+                  {' '}
+                  <BiTimer />
+                </p>
+                <div className="div-buttons-game">
                   {elem.type === 'boolean'
                     ? elem.incorrect_answers.map((values) => (
                       <div
@@ -132,7 +140,7 @@ class Game extends Component {
                           <button
                             type="button"
                             disabled={ desactiveButton }
-                            className={ buttonCorrect }
+                            className={ `${buttonCorrect} button-questions` }
                             data-testid="correct-answer"
                             onClick={ () => {
                               this.addStyle();
@@ -145,7 +153,7 @@ class Game extends Component {
                           <button
                             type="button"
                             disabled={ desactiveButton }
-                            className={ buttonIncorrect }
+                            className={ `${buttonIncorrect} button-questions` }
                             data-testid={ `wrong-answer-${index}` }
                             onClick={ this.addStyle }
                           >
@@ -163,7 +171,7 @@ class Game extends Component {
                           <button
                             type="button"
                             disabled={ desactiveButton }
-                            className={ buttonCorrect }
+                            className={ `${buttonCorrect} button-questions` }
                             data-testid="correct-answer"
                             onClick={ () => {
                               this.addStyle();
@@ -176,7 +184,7 @@ class Game extends Component {
                           <button
                             type="button"
                             disabled={ desactiveButton }
-                            className={ buttonIncorrect }
+                            className={ `${buttonIncorrect} button-questions` }
                             data-testid={ `wrong-answer-${index}` }
                             onClick={ this.addStyle }
                           >
@@ -185,19 +193,20 @@ class Game extends Component {
                         )}
                       </div>
                     ))}
+                  { desactiveButton && (
+                    <button
+                      type="button"
+                      className="button-next btn btn-secondary"
+                      data-testid="btn-next"
+                      onClick={ this.next }
+                    >
+                      Next
+
+                    </button>)}
                 </div>
               </div>
             ))[nextQuestion]
           )}
-          { desactiveButton && (
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.next }
-            >
-              Next
-
-            </button>)}
 
         </main>
       </>

@@ -52,7 +52,7 @@ class Login extends Component {
             {' '}
             Nome:
             <input
-              className="inputs-login-page"
+              className="inputs-login-page form-control"
               type="text"
               name="name"
               value={ name }
@@ -62,11 +62,11 @@ class Login extends Component {
             />
           </label>
 
-          <label htmlFor="email">
+          <label className="email" htmlFor="email">
             {' '}
             Email:
             <input
-              className="inputs-login-page"
+              className="inputs-login-page form-control"
               type="email"
               id="email"
               value={ email }
@@ -79,7 +79,7 @@ class Login extends Component {
 
         <div className="div-buttons-login">
           <button
-            className="btn-login-page"
+            className="btn-login-page btn btn-secondary"
             type="button"
             disabled={ activeButton }
             data-testid="btn-play"
@@ -90,7 +90,7 @@ class Login extends Component {
           </button>
           <button
             type="button"
-            className="btn-login-page"
+            className="btn-login-page btn btn-secondary"
             data-testid="btn-settings"
             onClick={ () => (history.push('/settings')) }
           >
