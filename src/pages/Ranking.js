@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../styles/ranking.css';
 
 class Ranking extends Component {
   constructor() {
@@ -25,20 +26,21 @@ class Ranking extends Component {
     const { rankingKing } = this.state;
     const { history } = this.props;
     return (
-      <div>
+      <main className="main-ranking">
         <div>
-          <h2 data-testid="ranking-title">Ranking dos Reis</h2>
+          <h2 data-testid="ranking-title">Kings Ranking</h2>
         </div>
         <section>
           {rankingKing.length !== 0 && rankingKing.map((elem, index) => (
             <div key={ `${elem.name}: player-${index}` }>
-              <h3 data-testid={ `player-name-${index}` }>{elem.name}</h3>
-              <p data-testid={ `player-score-${index}` }>{elem.score}</p>
+              <h4 data-testid={ `player-name-${index}` }>{`Player: ${elem.name}`}</h4>
+              <h4 data-testid={ `player-score-${index}` }>{`Score: ${elem.score}`}</h4>
             </div>
           ))}
         </section>
         <section>
           <button
+            className="btn btn-secondary"
             type="button"
             data-testid="btn-go-home"
             onClick={ () => history.push('/') }
@@ -47,7 +49,7 @@ class Ranking extends Component {
 
           </button>
         </section>
-      </div>
+      </main>
     );
   }
 }
