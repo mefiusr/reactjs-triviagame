@@ -19,7 +19,7 @@ describe('Testes no componente Ranking', () => {
         gravatarEmail: 'samara@trybe.com',
         questions: [],
         firstLogin: true,
-      }
+      },
     };
 
     const { history } = renderWithRouterAndRedux(<App />, initialState, '/ranking');
@@ -28,7 +28,6 @@ describe('Testes no componente Ranking', () => {
     userEvent.click(button);
     expect(history.location.pathname).toBe('/');
   })
-
   it('Testa se ao clicar no botão login, a página é redirecionada e o sort é testado', () => {
 
     const string = JSON.stringify({result: [{ name: 'samara', score: 1, picture: `https://opentdb.com/api.php?amount=5&token={img}` },

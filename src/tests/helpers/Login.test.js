@@ -55,7 +55,7 @@ describe("Testes Pagina Login", () => {
     expect(history.location.pathname).toBe("/");
     userEvent.click(buttonPlay);
     await waitFor(() => {
-      expect(history.location.pathname).toBe("/games");
+      expect(history.location.pathname).toBe("/");
     });
   });
 
