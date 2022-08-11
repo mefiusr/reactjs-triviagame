@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import Game from './pages/Game';
 import Login from './pages/Login';

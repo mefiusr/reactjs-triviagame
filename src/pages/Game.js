@@ -6,7 +6,6 @@ import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import { fetchTrivia } from '../services';
 import { questions, score } from '../redux/actions';
-import '../styles/style.css';
 import '../styles/game.css';
 
 class Game extends Component {
@@ -118,14 +117,14 @@ class Game extends Component {
           ) : (
             questoes.map((elem, index) => (
               <div className="div-perguntas" key={ `Perguntas ${index}` }>
-
+                <p>{`Question ${index + 1}`}</p>
                 <div className="div-questions">
                   <p data-testid="question-category">{elem.category}</p>
                   <p data-testid="question-text">{elem.question}</p>
 
                 </div>
                 <p data-testid="p-timer">
-                  {`TEMPO:  ${timer}`}
+                  {`TIME:  ${timer}`}
                   {' '}
                   <BiTimer />
                 </p>

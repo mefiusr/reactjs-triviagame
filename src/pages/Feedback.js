@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { MD5 } from 'crypto-js';
 import Header from '../components/Header';
 import { clear } from '../redux/actions';
+import '../styles/feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -36,39 +37,46 @@ class Feedback extends Component {
     const num = 3;
     const { assertions, score, history } = this.props;
     return (
-      <div>
+      <>
         <Header />
-        { assertions >= num ? <p data-testid="feedback-text">Well Done!</p>
-          : <p data-testid="feedback-text">Could be better...</p>}
-        <div>
-          <p data-testid="feedback-total-score">{score}</p>
-          <p data-testid="feedback-total-question">{assertions}</p>
-        </div>
-        <button
-          type="button"
-          onClick={ () => {
-            this.localScore();
-            history.push('/');
-          } }
-          data-testid="btn-play-again"
-        >
-          Play Again
-        </button>
-        <section>
+        <section className="section-feedback">
+          <main className="main-feedback">
+            { assertions >= num ? <p data-testid="feedback-text">Well Done!</p>
+              : <p data-testid="feedback-text">Could be better...</p>}
+            <div>
+              <p data-testid="feedback-total-score">{`Score: ${score}`}</p>
+              <p data-testid="feedback-total-question">{`Assertions: ${assertions}`}</p>
+            </div>
 
-          <button
-            type="button"
-            data-testid="btn-ranking"
-            onClick={ () => {
-              this.localScore();
-              history.push('/ranking');
-            } }
-          >
-            Ranking
+            <div className="buttons-feedback">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={ () => {
+                  this.localScore();
+                  history.push('/');
+                } }
+                data-testid="btn-play-again"
+              >
+                Play Again
+              </button>
 
-          </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-testid="btn-ranking"
+                onClick={ () => {
+                  this.localScore();
+                  history.push('/ranking');
+                } }
+              >
+                Ranking
+
+              </button>
+            </div>
+          </main>
         </section>
-      </div>
+      </>
 
     );
   }

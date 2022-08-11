@@ -1,8 +1,28 @@
 .header {
+  align-items: center;
+  background-color: rgb(55, 168, 132);
+  color: white;
   display: flex;
   justify-content: space-around;
 }
 
 .p-header {
-  font-size: 20px;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.div-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.img-header {
+  height: 60px;
+  width: 60px;
+}
+
+.logo-header {
+  height: 60px;
+  width: 150px;
 }
