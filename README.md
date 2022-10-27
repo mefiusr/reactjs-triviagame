@@ -3,7 +3,7 @@
 Jogo de Trivia para brincar com sua família!
 
 ## :link: Link Aplicação 
-- Acesse o site clicando no [**LINK**](https://main.d24dfr3f151mt8.amplifyapp.com/).
+- Acesse o site clicando no [**LINK**](https://main.d3hwi23vv25da8.amplifyapp.com/).
 - Hospedado na AWS.
 
 ## ⚙️ Funcionalidades
