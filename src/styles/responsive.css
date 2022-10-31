@@ -1,0 +1,31 @@
+@media (max-width: 768px) {
+  .div-perguntas {
+    width: auto;
+  }
+
+}
+
+
+@media (max-width: 425px) {
+  h1 {
+    text-align: center;
+  }
+  .main-feedback{
+    border-radius: 5px;
+    width: 70vw;
+  }
+  .main-game {
+    background-size: cover;
+  }
+
+  .header{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .div-inputs-login {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
